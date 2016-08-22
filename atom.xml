@@ -1,0 +1,1319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ROCKEEN</title>
+  <subtitle>Lifetime pursuit of romance Geeks</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2016-04-13T02:38:46.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>rockeen</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ABNewPersonViewController 调用通讯录</title>
+    <link href="http://yoursite.com/2016/03/30/2016-03-30ABNewPersonViewController/"/>
+    <id>http://yoursite.com/2016/03/30/2016-03-30ABNewPersonViewController/</id>
+    <published>2016-03-29T16:00:00.000Z</published>
+    <updated>2016-04-13T02:38:46.000Z</updated>
+    
+    <content type="html">&lt;p&gt;　　用ABNewPersonViewController 调用通讯录来添加联系人，调用的是系统的页面，不用自己再设计页面，通过代理方法来保存联系人和取消。&lt;br&gt;1.遵守代理协议&lt;br&gt;　　&lt;br&gt;　　&lt;code&gt;ABNewPersonViewControllerDelegate&lt;/code&gt;&lt;br&gt;2.创建页面推出页面&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//添加号码到本地通讯录&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)ClickToAddToAB &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ABNewPersonViewController *abNewC=[[ABNewPersonViewController alloc]init];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    abNewC.newPersonViewDelegate=self;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:abNewC];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [self presentViewController:nav animated:YES completion:NULL];   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;```    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.实现代理的方法`ABNewPersonViewControllerDelegate`    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;``` &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   if (person) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    NSString *firstName=(__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; //发送通知刷新数组&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [[NSNotificationCenter defaultCenter]postNotificationName:@&amp;quot;addAPeople&amp;quot; object:nil];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [newPersonView dismissViewControllerAnimated:YES completion:NULL];  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;4.把英文页面换为汉语界面&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/16-3-30/42910178.jpg&quot; alt=&quot;city&quot;&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      　　用ABNewPersonViewController 调用通讯录来添加联系人，调用的是系统的页面，不用自己再设计页面，通过代理方法来保存联系人和取消。
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="ABNewPersonViewController" scheme="http://yoursite.com/tags/ABNewPersonViewController/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Masonry介绍与使用实践</title>
+    <link href="http://yoursite.com/2016/01/05/Masonry%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%AE%9E%E8%B7%B5/"/>
+    <id>http://yoursite.com/2016/01/05/Masonry介绍与使用实践/</id>
+    <published>2016-01-04T16:00:00.000Z</published>
+    <updated>2016-04-13T02:38:07.000Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;br&gt;&lt;b&gt;介绍&lt;/b&gt;&lt;br&gt;　　Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X&lt;/p&gt;
+&lt;p&gt;看一段官方的sample code来认识一下Masonry&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[view1 mas_makeConstraints:^(MASConstraintMaker *make){    
+make.edges.equalTo(superview).with.insets(padding);
+}];
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;看到block里面的那句话: &lt;code&gt;make edges equalTo superviewwithinsets&lt;/code&gt;通过链式的自然语言 就把view1给autolayout好了 是不是简单易懂?&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;b&gt;使用&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;1.[基础] 居中显示一个view&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+
+    UIView *sv = [UIView new];
+    [sv showPlaceHolder];
+    sv.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:sv];
+    [sv mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(300, 300));
+    }];
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/2014-09-28-use-masonry-to-quick-solve-autolayout1.png&quot; alt=&quot;11&quot;&gt;&lt;/p&gt;
+&lt;p&gt;2.[初级] 让一个view略小于其superView(边距为10)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;UIView *sv1 = [UIView new];
+[sv1 showPlaceHolder];
+sv1.backgroundColor = [UIColor redColor];
+[sv addSubview:sv1];
+[sv1 mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.edges.equalTo(sv).with.insets(UIEdgeInsetsMake(10, 10, 10, 10));
+
+    /* 等价于
+    make.top.equalTo(sv).with.offset(10);
+    make.left.equalTo(sv).with.offset(10);
+    make.bottom.equalTo(sv).with.offset(-10);
+    make.right.equalTo(sv).with.offset(-10);
+    */
+
+    /* 也等价于
+    make.top.left.bottom.and.right.equalTo(sv).with.insets(UIEdgeInsetsMake(10, 10, 10, 10));
+    */
+}];
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/2014-09-28-use-masonry-to-quick-solve-autolayout2.png&quot; alt=&quot;2&quot;&gt;&lt;/p&gt;
+&lt;p&gt;3.[初级] 让两个高度为150的view垂直居中且等宽且等间隔排列 间隔为10(自动计算其宽度)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;int padding1 = 10;
+
+[sv2 mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.centerY.mas_equalTo(sv.mas_centerY);
+    make.left.equalTo(sv.mas_left).with.offset(padding1);
+    make.right.equalTo(sv3.mas_left).with.offset(-padding1);
+    make.height.mas_equalTo(@150);
+    make.width.equalTo(sv3);
+}];
+
+[sv3 mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.centerY.mas_equalTo(sv.mas_centerY);
+    make.left.equalTo(sv2.mas_right).with.offset(padding1);
+    make.right.equalTo(sv.mas_right).with.offset(-padding1);
+    make.height.mas_equalTo(@150);
+    make.width.equalTo(sv2);
+}];
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/2014-09-28-use-masonry-to-quick-solve-autolayout3.png&quot; alt=&quot;3&quot;&gt;&lt;/p&gt;
+&lt;p&gt;4.[中级] 在UIScrollView顺序排列一些view并自动计算contentSize&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;UIScrollView *scrollView = [UIScrollView new];
+scrollView.backgroundColor = [UIColor whiteColor];
+[sv addSubview:scrollView];
+[scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.edges.equalTo(sv).with.insets(UIEdgeInsetsMake(5,5,5,5));
+}];
+
+UIView *container = [UIView new];
+[scrollView addSubview:container];
+[container mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.edges.equalTo(scrollView);
+    make.width.equalTo(scrollView);
+}];
+
+int count = 10;
+
+UIView *lastView = nil;
+
+for ( int i = 1 ; i &amp;lt;= count ; ++i )
+{
+    UIView *subv = [UIView new];
+    [container addSubview:subv];
+    subv.backgroundColor = [UIColor colorWithHue:( arc4random() % 256 / 256.0 )
+                                      saturation:( arc4random() % 128 / 256.0 ) + 0.5
+                                      brightness:( arc4random() % 128 / 256.0 ) + 0.5
+                                           alpha:1];
+
+    [subv mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(container);
+        make.height.mas_equalTo(@(20*i));
+
+        if ( lastView )
+        {
+            make.top.mas_equalTo(lastView.mas_bottom);
+        }
+        else
+        {
+            make.top.mas_equalTo(container.mas_top);
+        }
+    }];
+
+    lastView = subv;
+}
+
+
+[container mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.bottom.equalTo(lastView.mas_bottom);
+}];
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/2014-09-28-use-masonry-to-quick-solve-autolayout4.png&quot; alt=&quot;4.1&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/2014-09-28-use-masonry-to-quick-solve-autolayout5.png&quot; alt=&quot;4.2&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;b&gt;小结&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;　　通过以上4个案例 我觉得已经把Masonry的常用功能介绍得差不多了 以上四个例子的代码可以在这里找到 如果你觉得意犹未尽呢 请下载官方的demo来学习&lt;/p&gt;
+&lt;p&gt;　　总而言之 Masonry是一个非常优秀的autolayout库 能够节省大量的开发和学习时间 尤其适合我这种纯代码的iOSer 在iPhone6发布后引发的适配潮中 Masonry一定可以助你一臂之力&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="Masonry" scheme="http://yoursite.com/tags/Masonry/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>给你的iOS应用更换主题</title>
+    <link href="http://yoursite.com/2016/01/04/%E7%BB%99%E4%BD%A0%E7%9A%84iOS%E5%BA%94%E7%94%A8%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/"/>
+    <id>http://yoursite.com/2016/01/04/给你的iOS应用更换主题/</id>
+    <published>2016-01-03T16:00:00.000Z</published>
+    <updated>2016-04-13T02:37:53.000Z</updated>
+    
+    <content type="html">&lt;p&gt;　　应用主题的更换往往会给我们的应用添彩，今天总结一下iOS主题切换的方法。&lt;/p&gt;
+&lt;p&gt;1.首先把各个主题图片导入到工程目录中&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/rockeen/rockeen.github.io/raw/master/_posts/media/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-01-05%20%E4%B8%8B%E5%8D%8810.10.33.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;选择Create folder references&lt;/p&gt;
+&lt;p&gt;2.Thememanager.h中声明单例方法和传入图片或者颜色的名字对应找到图片和颜色&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+#import &amp;lt;UIKit/UIKit.h&amp;gt;
+@interface Thememanager : NSObject
+
+@property(nonatomic, copy) NSString *currentTheme;
+
+@property(nonatomic, retain, readonly) NSDictionary *themeDic;
+
+@property(nonatomic, retain, readonly) NSDictionary *themeColorDic;
+
++(instancetype)defaultManager;
+
+//凭借图片路径并且放回图片对象
+-(UIImage *)imageFromName:(NSString *)imgName;
+
+//传入颜色对应的pilst文件中名字 获取uicolor颜色
+-(UIColor *)colorFromName:(NSString *)colorName;
+
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;3.创建主题管理类来管理主题的切换，Thememanager.m中要创建单例方法&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//获取单例对象
++(instancetype)defaultManager
+{
+    static Thememanager *themeManager = nil;
+
+    static dispatch_once_t predicate;
+
+    dispatch_once(&amp;amp;predicate, ^{
+
+        themeManager = [[Thememanager alloc] init];
+
+    });
+
+    return themeManager;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;4.复写init初始化方法获取plist文件中数据对应切换主题&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//复写init初始化方法
+-(instancetype)init
+{
+    self = [super init];
+
+    if (self) {
+
+        //1.获取文件路径
+        NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;theme&amp;quot; ofType:@&amp;quot;plist&amp;quot;];
+
+        //2.解析plist数据
+        NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:path];
+
+        //设置主题数据
+        _themeDic = dic;
+
+        //设置初始的主题
+        _currentTheme = @&amp;quot;猫爷&amp;quot;;
+
+    }
+
+    return self;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;5.实现根据名字找到图片的方法（地址拼接）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//凭借图片路径并且放回图片对象
+-(UIImage *)imageFromName:(NSString *)imgName
+{
+    //获取当前工作目录
+    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+
+    NSString *imgpath = [self.themeDic objectForKey:self.currentTheme];
+
+    NSString *path = [NSString stringWithFormat:@&amp;quot;%@/%@/%@&amp;quot;,bundlePath,imgpath,imgName];
+//    NSLog(@&amp;quot;path is:%@&amp;quot;,path);
+
+    return [[UIImage alloc] initWithContentsOfFile:path];
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;6.复写currenttheme的set方法，当主题切换时发送通知&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//复写currenttheme的set方法
+-(void)setCurrentTheme:(NSString *)currentTheme
+{
+    _currentTheme = currentTheme;
+
+    //主题切换时获取新的 颜色的config。plist文件数据
+
+    //获取到当前主题对应的路径
+    NSString *themePath = [self.themeDic objectForKey:_currentTheme];
+
+    //凭借configpist文件路径
+    NSString *configPath = [NSString stringWithFormat:@&amp;quot;%@/%@/config.plist&amp;quot;,[[NSBundle mainBundle] bundlePath],themePath];
+
+    //根据路径解析plist文件数据
+    _themeColorDic = [NSDictionary dictionaryWithContentsOfFile:configPath];
+
+    //当主题切换时发起通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:kThemeChanageNotification object:nil];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;7.在切换主题的类中通过单例拿到图片切换主题&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(instancetype)initWithImage:(UIImage *)image
+{
+    self = [super initWithImage:image];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserverForName:kThemeChanageNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+
+            //重新设置图片
+//            self.image = [[Thememanager defaultManager] imageFromName:self.imgName];
+
+            self.image = kThemeImageFromName(self.imgName);
+        }];
+
+    }
+    return self;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      给你的iOS应用更换主题
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="主题" scheme="http://yoursite.com/tags/%E4%B8%BB%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>让UIImageView适应图片的大小</title>
+    <link href="http://yoursite.com/2015/12/25/ImageView-size/"/>
+    <id>http://yoursite.com/2015/12/25/ImageView-size/</id>
+    <published>2015-12-24T16:00:00.000Z</published>
+    <updated>2016-04-13T02:36:06.000Z</updated>
+    
+    <content type="html">&lt;p&gt;　　我在一个UIImageView中加入了一张图片,我想让这个图片的尺寸作为该UIImageView的尺寸。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//创建imgV视图  
+-(void)createImgV  
+{  
+    //创建视图展示  
+    _imgV = [[UIImageView alloc] initWithFrame:CGRectZero];  
+
+    _imgV.backgroundColor=[UIColor yellowColor];  
+
+    _imgV.backgroundColor=[UIColor yellowColor];  
+
+    _imgV.contentMode=UIViewContentModeScaleToFill;  
+
+
+    [self addSubview:_imgV];  
+}  
+
+-(void)setImgName:(NSString *)imgName  
+{  
+    _imgName = imgName;  
+
+
+    [_imgV setImageWithURL:[NSURL URLWithString:_imgName]];  
+
+    _imgV.frame=CGRectMake(0, 0, _imgV.image.size.width, _imgV.image.size.height)
+
+    };  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;先设为CGRectZero,再赋值.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      我在一个UIImageView中加入了一张图片,我想让这个图片的尺寸作为该UIImageView的尺寸
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="UI控件" scheme="http://yoursite.com/tags/UI%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>媒体播放之—— MPMoviePlayer</title>
+    <link href="http://yoursite.com/2015/12/23/MPMoviePlayer2/"/>
+    <id>http://yoursite.com/2015/12/23/MPMoviePlayer2/</id>
+    <published>2015-12-22T16:00:00.000Z</published>
+    <updated>2016-04-13T02:37:43.000Z</updated>
+    
+    <content type="html">&lt;p&gt;　　MPMoviePlayerController足够强大,几乎不用写几行代码就能完成一个播放器,但是正是由于它的高度封装 使得要自定义这个播放器变得很复杂,甚至是不可能完成。例如有些时候需要自定义播放器的样式,那么如果要 使用MPMoviePlayerController就不合适了,如果要对视频有自由的控制则可以使用AVPlayer。AVPlayer存在于 AVFoundation中,它更加接近于底层,所以灵活性也更强。&lt;/p&gt;
+&lt;p&gt;1.MPMoviePlayerViewController推出视频界面&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- (IBAction)play:(UIButton *)sender {
+
+    //获取本地视频路径
+    //    NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;abc&amp;quot; ofType:@&amp;quot;mp4&amp;quot;];
+    //
+    //    NSURL *url = [NSURL fileURLWithPath:path];
+
+    //获取网络视频路径
+    NSURL *url = [NSURL URLWithString:@&amp;quot;http://vf1.mtime.cn/Video/2012/04/23/mp4/120423212602431929.mp4&amp;quot;];
+
+    //视频播放界面    MPMoviePlayerViewController包含了MPMoviePlayerController
+    MPMoviePlayerViewController *playerVc = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+
+    //设置播放器的类型
+    playerVc.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+
+    //推出视频界面
+    [self presentViewController:playerVc animated:YES completion:nil];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2.MPMoviePlayerController&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)mpMoviePlayerController
+{
+    //获取本地视频路径
+    //    NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;abc&amp;quot; ofType:@&amp;quot;mp4&amp;quot;];
+    //
+    //    NSURL *url = [NSURL fileURLWithPath:path];
+
+//获取网络视频路径
+NSURL *url = [NSURL URLWithString:@&amp;quot;http://vf1.mtime.cn/Video/2012/04/23/mp4/120423212602431929.mp4&amp;quot;];
+
+
+//实例化_moviePlayer对象
+_moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:url];
+
+//将播放视频的view 添加到根视图上
+[self.view addSubview:_moviePlayer.view];
+
+//在添加视图后 设置frame大小
+_moviePlayer.view.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*9/16);
+
+_moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
+
+[_moviePlayer prepareToPlay];
+
+//    //是否准备好播放
+//    BOOL isPlay = [_moviePlayer isPreparedToPlay];
+
+[_moviePlayer play];
+
+//监听视频播放的通知
+/////MPMoviePlayer自动发起通知/////
+[[NSNotificationCenter defaultCenter] addObserverForName:MPMoviePlayerPlaybackStateDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+    NSLog(@&amp;quot;state change&amp;quot;);
+}];
+
+    }
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      MPMoviePlayerController足够强大,几乎不用写几行代码就能完成一个播放器,但是正是由于它的高度封装 使得要自定义这个播放器变得很复杂,甚至是不可能完成。例如有些时候需要自定义播放器的样式,那么如果要 使用MPMoviePlayerController就不合适了,如果要对视频有自由的控制则可以使用AVPlayer。AVPlayer存在于 AVFoundation中,它更加接近于底层,所以灵活性也更强。
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="媒体播放" scheme="http://yoursite.com/tags/%E5%AA%92%E4%BD%93%E6%92%AD%E6%94%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>媒体播放之—— 音效播放</title>
+    <link href="http://yoursite.com/2015/12/23/AudioToolbox.framework/"/>
+    <id>http://yoursite.com/2015/12/23/AudioToolbox.framework/</id>
+    <published>2015-12-22T16:00:00.000Z</published>
+    <updated>2016-04-13T02:37:30.000Z</updated>
+    
+    <content type="html">&lt;p&gt;　　AudioToolbox.framework是一套基于C语言的框架，使用它来播放音效本质是将短音频注册到系统的声音服务。System Sound Service是一种简单的底层音乐播放服务，但是它本身也存在着一些限制：&lt;/p&gt;
+&lt;p&gt;1.音频播放时间不能超过30s。&lt;/p&gt;
+&lt;p&gt;2.数据必须是PCM或者IMA4格式。&lt;/p&gt;
+&lt;p&gt;3.音频文件必须打包成.caf .aif .wav 中的一种&lt;/p&gt;
+&lt;p&gt;4.加入#import &lt;avfoundation avfoundation.h=&quot;&quot;&gt;&lt;/avfoundation&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/msgcome%E5%88%B7%E6%96%B0%E9%9F%B3%E6%95%88.wav&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;声音文件&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    //获取文件路径
+    NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;msgcome&amp;quot; ofType:@&amp;quot;wav&amp;quot;];
+
+    NSURL *url = [NSURL fileURLWithPath:path];
+
+    SystemSoundID soundId;
+
+    //将url路径中的内容绑定到soundId上  __bridge作用：c与OC的转换
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)(url), &amp;amp;soundId);
+
+    //根据id 播放声音
+    AudioServicesPlaySystemSound(soundId);
+
+    //播放声音并且震动
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      AudioToolbox.framework是一套基于C语言的框架，使用它来播放音效本质是将短音频注册到系统的声音服务。System Sound Service是一种简单的底层音乐播放服务，但是它本身也存在着一些限制
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="媒体播放" scheme="http://yoursite.com/tags/%E5%AA%92%E4%BD%93%E6%92%AD%E6%94%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>媒体播放之—— AVPlaye和AVAudioPlayer</title>
+    <link href="http://yoursite.com/2015/12/23/%E5%AA%92%E4%BD%93%E6%92%AD%E6%94%BE%E4%B9%8B%E2%80%94%E2%80%94%20AVPlaye%E5%92%8CAVAudioPlayer/"/>
+    <id>http://yoursite.com/2015/12/23/媒体播放之—— AVPlaye和AVAudioPlayer/</id>
+    <published>2015-12-22T16:00:00.000Z</published>
+    <updated>2016-04-13T02:37:11.000Z</updated>
+    
+    <content type="html">&lt;p&gt;　　AVPlaye和AVAudioPlayer可以看成一个播放器,它支持多种音频格式,而且能够进行进度、音量、播放速度等控制， 使用简单方便，但只能播放本地音频，不支持流媒体播放，AVPlay支持,都需要导入AVFoundation.framework。&lt;/p&gt;
+&lt;p&gt;1.AVPlaye&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#import &amp;quot;ViewController.h&amp;quot;
+#import &amp;lt;AVFoundation/AVFoundation.h&amp;gt;
+
+
+@interface ViewController ()
+{
+    AVPlayer *_player;
+
+
+}
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    ///////////////播放网络音乐////////////
+//    NSURL *url = [NSURL URLWithString:@&amp;quot;http://www.itinge.com/music/1/201411/2014110519103910033158.mp3&amp;quot;];
+
+    //////////播放本地音乐///////////////
+    NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;LittleApple&amp;quot; ofType:@&amp;quot;mp3&amp;quot;];
+
+    NSURL *url = [NSURL fileURLWithPath:path];
+//    
+//    _player = [[AVPlayer alloc] initWithURL:url];
+//    
+//    //设置声音
+//    _player.volume = .5;
+//    
+//    [_player play];
+//    
+//    /////////播放流媒体////////////
+    [self playMedia];
+
+}
+
+//播放流媒体
+-(void)playMedia
+{
+    //获取文件路径
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;abc&amp;quot; ofType:@&amp;quot;mp4&amp;quot;];
+
+//    NSURL *url = [NSURL fileURLWithPath:path];
+
+    NSURL *url = [NSURL URLWithString:@&amp;quot;http://vf1.mtime.cn/Video/2012/04/23/mp4/120423212602431929.mp4&amp;quot;];
+
+    //将url对应的视频生成item对象 包含视频信息
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
+
+    //实例化——player对象
+    _player = [[AVPlayer alloc] initWithPlayerItem:item];    
+
+    //给player创建图层
+    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
+
+    //设置layer的大小
+    layer.frame = CGRectMake(0, 200, self.view.bounds.size.width, self.view.bounds.size.width*9/16);
+
+    //添加图层
+    [self.view.layer addSublayer:layer];
+
+    //播放
+    [_player play];
+
+    //设置播放速率
+//    _player.rate = .1;
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2.AVAudioPlayer&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#import &amp;quot;ViewController.h&amp;quot;
+#import &amp;lt;AVFoundation/AVFoundation.h&amp;gt;
+
+
+@interface ViewController ()&amp;lt;AVAudioPlayerDelegate&amp;gt;
+{
+    AVAudioPlayer *_player;
+
+}
+@property (weak, nonatomic) IBOutlet UILabel *currentTime;
+@property (weak, nonatomic) IBOutlet UISlider *timeSlider;
+@property (weak, nonatomic) IBOutlet UILabel *totleTime;
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    //获取文件路径
+    NSString *path = [[NSBundle mainBundle] pathForResource:@&amp;quot;Little&amp;quot; ofType:@&amp;quot;mp3&amp;quot;];
+
+    NSURL *url = [NSURL fileURLWithPath:path];
+
+    //实例化_player对象
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+
+    //设置属性
+    //设置音量
+    _player.volume = .8;
+
+    //音乐播放的当前时间
+    _player.currentTime = 0;
+
+    //音乐播放循环次数
+    _player.numberOfLoops = 0;
+
+    //声道
+    NSUInteger channels = _player.numberOfChannels;
+
+    //音乐的总时长
+    NSTimeInterval duration = _player.duration;
+
+    //设置代理
+    _player.delegate = self;
+
+
+    BOOL isPlay = [_player prepareToPlay];
+
+//    if (isPlay) {
+//        [_player play];
+//    }
+
+    ///////实现界面的实时刷新///////////
+    CADisplayLink *display = [CADisplayLink displayLinkWithTarget:self selector:@selector(display)];
+
+    //将display对象添加到runloop上
+    [display addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+}
+
+//实现display
+-(void)display
+{
+    //修改当前时间的label
+    NSString *currenttime = [NSString stringWithFormat:@&amp;quot;%02d:%02d&amp;quot;,(int)_player.currentTime/60,(int)_player.currentTime%60];
+    _currentTime.text = currenttime;
+
+    //设置总时长
+    _totleTime.text = [NSString stringWithFormat:@&amp;quot;%02d:%02d&amp;quot;,(int)_player.duration/60,(int)_player.duration%60];
+
+    //设置滑块的value值
+    _timeSlider.value = _player.currentTime/_player.duration;
+
+}
+//播放/暂停
+- (IBAction)play:(UIButton *)sender {
+
+    if (_player.playing) {
+        //音乐播放暂停
+        [_player pause];
+
+        [sender setTitle:@&amp;quot;播放&amp;quot; forState:UIControlStateNormal];
+    }
+    else
+    {
+        //音乐播放
+        [_player play];
+
+        [sender setTitle:@&amp;quot;暂停&amp;quot; forState:UIControlStateNormal];
+    }
+
+}
+
+//音量修改
+- (IBAction)volume:(UISlider *)sender {
+
+    //修改音量
+    _player.volume = sender.value;
+}
+
+//当前播放进度
+- (IBAction)time:(UISlider *)sender {
+
+    //设置当前播放进度
+    _player.currentTime = sender.value*_player.duration;
+}
+
+#pragma mark ------- AVAudioPlayer
+//播放完成时调用
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    NSLog(@&amp;quot;播放完成&amp;quot;);
+}
+
+//解码出现错误时调用
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
+{
+    NSLog(@&amp;quot;解码错误&amp;quot;);
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      AVPlaye和AVAudioPlayer可以看成一个播放器,它支持多种音频格式,而且能够进行进度、音量、播放速度等控制， 使用简单方便，但只能播放本地音频，不支持流媒体播放，AVPlay支持,都需要导入AVFoundation.framework。
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="主题" scheme="http://yoursite.com/tags/%E4%B8%BB%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UIPickerView制作地区选择器</title>
+    <link href="http://yoursite.com/2015/12/22/UIPickerView%E5%88%B6%E4%BD%9C%E5%9C%B0%E5%8C%BA%E9%80%89%E6%8B%A9%E5%99%A8/"/>
+    <id>http://yoursite.com/2015/12/22/UIPickerView制作地区选择器/</id>
+    <published>2015-12-21T16:00:00.000Z</published>
+    <updated>2016-04-13T02:36:53.000Z</updated>
+    
+    <content type="html">&lt;p&gt;有1个选择器，有左右两个轮子，做轮子选择省份，右轮子选择城市，其中选择省份时，右边的城市会自动更新,效果：&lt;br&gt;&lt;img src=&quot;https://github.com/rockeen/rockeen.github.io/raw/master/_posts/tec/media/city.gif&quot; alt=&quot;city&quot;&gt;&lt;/p&gt;
+&lt;p&gt;1.创建pickerView&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    //1、创建pickerView size设置为0，0 系统会自动计算
+    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, 0, 0)];
+
+    //2.设置数据源协议和代理
+    pickerView.delegate = self;
+
+    pickerView.dataSource = self;
+
+
+    //3.添加到父视图
+    [self.view addSubview:pickerView];
+
+    //4.获取数据源
+    NSString *filepath = [[NSBundle mainBundle] pathForResource:@&amp;quot;address&amp;quot; ofType:@&amp;quot;plist&amp;quot;];
+
+    //获取字典
+    NSDictionary *addressDic = [NSDictionary dictionaryWithContentsOfFile:filepath];
+
+    //获取城市大数组
+    _addressArr = [addressDic objectForKey:@&amp;quot;address&amp;quot;];
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2.实现数据源协议方法&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//实现数据源协议方法
+// returns the number of &amp;apos;columns&amp;apos; to display. 返回列数
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 3;
+}
+
+// returns the # of rows in each component.. 返回每列的行数
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    if (component == 0) {
+        return _addressArr.count;
+    }
+    else if (component == 1)
+    {
+        //返回第一列中选中的行数的下标（索引）
+        NSInteger selectedrow = [pickerView selectedRowInComponent:0];
+
+        //通过下标获取省份对象
+        NSDictionary *provinceDic = _addressArr[selectedrow];
+
+        //获取子城市列表
+        NSArray *cityArr = [provinceDic objectForKey:@&amp;quot;sub&amp;quot;];
+
+        return cityArr.count;
+    }
+    else if (component == 2)
+    {
+        //返回第一列中选中的行数的下标（索引）
+        NSInteger selectedrow = [pickerView selectedRowInComponent:0];
+
+        //通过下标获取省份对象
+        NSDictionary *provinceDic = _addressArr[selectedrow];
+
+        //获取子城市列表
+        NSArray *cityArr = [provinceDic objectForKey:@&amp;quot;sub&amp;quot;];
+
+        //返回第二列选中的行数的下标
+        NSInteger selectedrow2 = [pickerView selectedRowInComponent:1];
+
+        //获取子城市对象
+        NSDictionary *cityDic = cityArr[selectedrow2];
+
+        //获取区域的数组
+        NSArray *localArr = [cityDic objectForKey:@&amp;quot;sub&amp;quot;];
+
+        return localArr.count;
+    }
+    return 0;
+}
+
+
+####返回每行的文本
+
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    if(component == 0)
+    {
+        //获取到省份数据
+        NSDictionary *provinceDic = _addressArr[row];
+
+        NSString *provinceName = [provinceDic objectForKey:@&amp;quot;name&amp;quot;];
+
+        return provinceName;
+    }
+    else if (component == 1)
+    {
+        //返回第一列中选中的行数的下标（索引）
+        NSInteger selectedrow = [pickerView selectedRowInComponent:0];
+
+        //通过下标获取省份对象
+        NSDictionary *provinceDic = _addressArr[selectedrow];
+
+        //获取子城市列表
+        NSArray *cityArr = [provinceDic objectForKey:@&amp;quot;sub&amp;quot;];
+
+        //安全判断  如果row小与数组元素个数 再去执行返回操作
+        if(row &amp;lt; cityArr.count)
+        {
+            //获取子城市数据对象
+            NSDictionary *cityDic = cityArr[row];
+
+            NSString *cityName = [cityDic objectForKey:@&amp;quot;name&amp;quot;];
+
+            return cityName;
+        }
+    }
+    else if (component == 2)
+    {
+        //返回第一列中选中的行数的下标（索引）
+        NSInteger selectedrow = [pickerView selectedRowInComponent:0];
+
+        //通过下标获取省份对象
+        NSDictionary *provinceDic = _addressArr[selectedrow];
+
+        //获取子城市列表
+        NSArray *cityArr = [provinceDic objectForKey:@&amp;quot;sub&amp;quot;];
+
+        //返回第二列选中的行数的下标
+        NSInteger selectedrow2 = [pickerView selectedRowInComponent:1];
+
+        //获取子城市对象
+        NSDictionary *cityDic = cityArr[selectedrow2];
+
+        //获取区域的数组
+        NSArray *localArr = [cityDic objectForKey:@&amp;quot;sub&amp;quot;];
+
+        if(row &amp;lt; localArr.count)
+        {
+            //获取区域名字
+            NSString *localName = localArr[row];
+
+            return localName;
+        }
+    }
+    return nil;
+
+}
+
+
+####选中某一行时被调用
+
+
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if(component == 0)
+    {
+        //刷新列
+        [pickerView reloadComponent:1];
+        //初始化选中列中的第一个数据
+        [pickerView selectRow:0 inComponent:1 animated:YES];
+
+        //刷新列
+        [pickerView reloadComponent:2];
+        //初始化选中列中的第一个数据
+        [pickerView selectRow:0 inComponent:2 animated:YES];
+
+    }
+    else if (component == 1)
+    {
+        //刷新列
+        [pickerView reloadComponent:2];
+
+        [pickerView selectRow:0 inComponent:2 animated:YES];
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      UIPickerView制作地区选择器
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="UIPickerView" scheme="http://yoursite.com/tags/UIPickerView/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据持久化之—Archiver</title>
+    <link href="http://yoursite.com/2015/05/21/2015-5-21-Archiver/"/>
+    <id>http://yoursite.com/2015/05/21/2015-5-21-Archiver/</id>
+    <published>2015-05-20T16:00:00.000Z</published>
+    <updated>2016-04-13T02:36:42.000Z</updated>
+    
+    <content type="html">&lt;p&gt;##数据持久化&lt;br&gt;　　数据持久化就是将各种类型的对象存储到文件中，而不仅仅是字符串、数组和字典类型，有一种灵活的方法。就是利用NSKeyedAarchiver类创建带（keyed）的档案来完成。&lt;/p&gt;
+&lt;p&gt;###一、单个对象的存储&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)archiverOne
+{
+    //第一种方式  缺陷：只能对单独的对象进行归档
+    ////--------归档-----------////
+    //将要存储的对象
+    NSString *str = @&amp;quot;heiheihei&amp;quot;;
+
+    //存储路径
+    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@&amp;quot;Documents/str.archiver&amp;quot;];
+
+    //将str对象归档
+    BOOL isOk = [NSKeyedArchiver archiveRootObject:str toFile:path];
+
+    if (isOk) {
+        NSLog(@&amp;quot;写入成功&amp;quot;);
+    }
+
+    ////--------解档-----------////
+    NSString *loadStr = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+
+    NSLog(@&amp;quot;loadStr is:%@&amp;quot;,loadStr);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;###二、多个对象的归档解档&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)archiverTwo
+{
+    //////////-------归档---------////////
+    //第二种  归档多个数据对象
+    NSString *str = @&amp;quot;heiheihei&amp;quot;;
+    NSArray *arr = @[@1,@2,@3];
+    NSDictionary *dic = @{@&amp;quot;id&amp;quot;:@&amp;quot;1234&amp;quot;,@&amp;quot;name&amp;quot;:@&amp;quot;jack&amp;quot;};
+
+    //创建二进制数据对象
+    NSMutableData *data = [NSMutableData data];
+
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    //归档编码 类似于字典的键值对格式
+    [archiver encodeObject:str forKey:@&amp;quot;str&amp;quot;];
+    [archiver encodeObject:arr forKey:@&amp;quot;arr&amp;quot;];
+    [archiver encodeObject:dic forKey:@&amp;quot;dic&amp;quot;];
+
+    //完成编码 将上面编码对象放入到data中去
+    [archiver finishEncoding];
+
+    //创建归档路径
+    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@&amp;quot;Documents/more.archiver&amp;quot;];
+
+    //将编码后的二进制数据 写入到文件
+    BOOL result = [data writeToFile:path atomically:YES];
+
+    if (result) {
+        NSLog(@&amp;quot;归档成功&amp;quot;);
+    }
+
+    //////////-------解档---------////////
+    NSData *archiverdata = [NSData dataWithContentsOfFile:path];
+
+    //创建解码对象
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:archiverdata];
+
+    //通过解码获取数据
+    NSArray *arr2 = [unarchiver decodeObjectForKey:@&amp;quot;arr&amp;quot;];
+
+    NSLog(@&amp;quot;arr2 is:%@&amp;quot;,arr2);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;###三、对自定义类型对象归档和解档&lt;/p&gt;
+&lt;p&gt;####1.首先在你的自定义类里面例如：Person.m里面&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//编码归档时 自动调用
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:self.name forKey:@&amp;quot;name&amp;quot;];
+
+    [coder encodeObject:self.sex forKey:@&amp;quot;sex&amp;quot;];
+}
+
+//解档时自动调用
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super init];
+    if (self) {
+        //对属性解码
+        self.name = [coder decodeObjectForKey:@&amp;quot;name&amp;quot;];
+
+        self.sex = [coder decodeObjectForKey:@&amp;quot;sex&amp;quot;];
+    }
+    return self;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;###2.对自定义对象归档和解档&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)archiverThree
+{
+    //1.创建自定义类型对象
+    Person *person = [[Person alloc] init];
+
+    person.name = @&amp;quot;haha&amp;quot;;
+
+    person.sex = @&amp;quot;男&amp;quot;;
+
+    person.age = 18;
+
+    Person *persont = [[Person alloc] init];
+
+    persont.name = @&amp;quot;hehe&amp;quot;;
+
+    persont.sex = @&amp;quot;nv&amp;quot;;
+
+    persont.age = 18;
+
+    //2.创建data数据容器
+    NSMutableData *data = [NSMutableData data];
+
+    //3.创建进行编码归档的执行对象
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+
+    //编码归档
+    [archiver encodeObject:person forKey:@&amp;quot;person&amp;quot;];
+    [archiver encodeObject:persont forKey:@&amp;quot;persont&amp;quot;];
+
+    //编码完成
+    [archiver finishEncoding];
+
+    //4.创建文件路径
+    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@&amp;quot;Documents/person.archiver&amp;quot;];
+
+    BOOL result = [data writeToFile:path atomically:YES];
+
+    if (result) {
+        NSLog(@&amp;quot;归档成功&amp;quot;);
+    }
+
+    ////////------解档-------//////
+    NSData *personData = [NSData dataWithContentsOfFile:path];
+
+    //解档
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:personData];
+
+    Person *person2 = [unarchiver decodeObjectForKey:@&amp;quot;person&amp;quot;];
+    Person *persont2 = [unarchiver decodeObjectForKey:@&amp;quot;persont&amp;quot;];
+
+    NSLog(@&amp;quot;person.name :%@&amp;quot;,person2.name);
+    NSLog(@&amp;quot;person.age :%ld&amp;quot;,person2.age);
+    NSLog(@&amp;quot;person.sex :%@&amp;quot;,person2.sex);
+
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      数据持久化就是将各种类型的对象存储到文件中，而不仅仅是字符串、数组和字典类型，有一种灵活的方法。就是利用NSKeyedAarchiver类创建带（keyed）的档案来完成。
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="数据持久化" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库CoreData的使用</title>
+    <link href="http://yoursite.com/2015/01/20/2015-1-20-CoreDate/"/>
+    <id>http://yoursite.com/2015/01/20/2015-1-20-CoreDate/</id>
+    <published>2015-01-19T16:00:00.000Z</published>
+    <updated>2016-04-13T02:36:23.000Z</updated>
+    
+    <content type="html">&lt;font size=&quot;5&quot;&gt;一、简介&lt;/font&gt;
+
+
+&lt;p&gt;　　Core Data是iOS5之后才出现的一个框架，它提供了对象-关系映射(ORM)的功能，即能够将OC对象转化成数据，保存在SQLite数据库文件中，也能够将保存在数据库中的数据还原成OC对象.&lt;/p&gt;
+&lt;font size=&quot;5&quot;&gt;二、CoreData中的核心对象&lt;/font&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/CoreDate.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;开发步骤总结：&lt;/p&gt;
+&lt;p&gt;　1.初始化NSManagedObjectModel对象，加载模型文件，读取app中的所有实体信息&lt;/p&gt;
+&lt;p&gt;　2.初始化NSPersistentStoreCoordinator对象，添加持久化库(这里采取SQLite数据库)&lt;/p&gt;
+&lt;p&gt;　3.初始化NSManagedObjectContext对象，拿到这个上下文对象操作实体，进行CRUD操作&lt;/p&gt;
+&lt;font size=&quot;5&quot;&gt;三、操作步骤&lt;/font&gt;
+
+
+&lt;p&gt;1.选择模板&lt;br&gt;&lt;img src=&quot;http://7xpvy0.com1.z0.glb.clouddn.com/11-1.png&quot; alt=&quot;11&quot;&gt;&lt;/p&gt;
+&lt;p&gt;2.添加库文件&lt;br&gt;&lt;img src=&quot;https://github.com/rockeen/rockeen.github.io/raw/master/_posts/tec/media/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-12-20%20%E4%B8%8B%E5%8D%881.44.17.png&quot; alt=&quot;屏幕快照 2015-12-20 下午1.44.17&quot;&gt;&lt;/p&gt;
+&lt;p&gt;3.添加类&lt;br&gt;&lt;img src=&quot;https://github.com/rockeen/rockeen.github.io/raw/master/_posts/tec/media/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-12-20%20%E4%B8%8B%E5%8D%881.44.50.png&quot; alt=&quot;屏幕快照 2015-12-20 下午1.44.50&quot;&gt;&lt;/p&gt;
+&lt;font size=&quot;5&quot;&gt;四、代码实现&lt;/font&gt;
+
+&lt;p&gt;1.打开数据库&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)openDB
+{
+    //1.获取数据模型文件路径
+    NSURL *url = [[NSBundle mainBundle]URLForResource:@&amp;quot;UserModel&amp;quot; withExtension:@&amp;quot;momd&amp;quot;];
+    //2.根据路径 转化为NSManagedObjectModel模型文件
+    NSManagedObjectModel *dataModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
+
+    //定义数据库文件的沙盒目录
+    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@&amp;quot;Documents/CoreData.sqlite&amp;quot;];
+    NSLog(@&amp;quot;filePath is:%@&amp;quot;,filePath);
+
+    NSURL *dbUrl = [NSURL fileURLWithPath:filePath];
+
+    //打开数据库文件
+    /*
+     如果数据库文件不存在，则创建新的数据库文件。如果数据库文件存在，则直接打开
+     */
+    store = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:dataModel];
+
+    //NSSQLiteStoreType:存储数据的类型
+    //dbUrl:数据库文件的url地址
+    [store addPersistentStoreWithType:NSSQLiteStoreType
+                        configuration:nil
+                                  URL:dbUrl
+                              options:nil
+                                error:nil];
+
+    //初始化管理数据对象的上下文
+    _moContext = [[NSManagedObjectContext alloc] init];
+    //设置persistentStoreCoordinator属性 通过它管理数据对象
+    _moContext.persistentStoreCoordinator = store;
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2.添加数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)addUser
+{
+    //创建user实体对象不可以使用 alloc init方法
+    //插入一个user对象 到user实体中
+    User *user = [NSEntityDescription insertNewObjectForEntityForName:@&amp;quot;User&amp;quot; inManagedObjectContext:_moContext];
+
+    user.userId = @30;
+
+    user.userName = @&amp;quot;rose&amp;quot;;
+
+    UIImage *image = [UIImage imageNamed:@&amp;quot;123&amp;quot;];
+    //UIImagePNGRepresentation:将图片对象转化为data数据
+    user.userImg = UIImagePNGRepresentation(image);
+
+    BOOL isSave = [_moContext save:nil];
+
+    if (isSave) {
+        NSLog(@&amp;quot;保存成功&amp;quot;);
+    }
+    else
+    {
+        NSLog(@&amp;quot;保存失败&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;3.查询数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)queryData
+{
+    //创建查询请求
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@&amp;quot;User&amp;quot;];
+
+    //给request请求添加谓词条件
+//    request.predicate = [NSPredicate predicateWithFormat:@&amp;quot;userName LIKE &amp;apos;j*&amp;apos; &amp;amp;&amp;amp; userId &amp;gt; 10&amp;quot;];
+
+    //执行查询操作
+    NSArray *users = [_moContext executeFetchRequest:request error:nil];
+
+    for (User *user in users) {
+        NSLog(@&amp;quot;user name is:%@&amp;quot;,user.userName);
+        NSLog(@&amp;quot;user id is:%@&amp;quot;,user.userId);
+    }
+    NSLog(@&amp;quot;hehe&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;4.修改数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)upDateData
+{
+    //创建修改请求
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@&amp;quot;User&amp;quot;];
+
+    request.predicate = [NSPredicate predicateWithFormat:@&amp;quot;userName = &amp;apos;rose&amp;apos;&amp;quot;];
+
+
+    NSArray *roses = [_moContext executeFetchRequest:request error:nil];
+
+    for (User *user in roses) {
+        user.userId = @50;
+    }
+
+    //执行save操作 真正对数据库中的数据做修改
+    BOOL isSave = [_moContext save:nil];
+    if (isSave) {
+        NSLog(@&amp;quot;修改成功&amp;quot;);
+    }
+    else
+    {
+        NSLog(@&amp;quot;修改失败&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;5.删除数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)deleteData
+{
+    //创建删除请求
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@&amp;quot;User&amp;quot;];
+
+
+    //执行删除request
+    NSArray *array = [_moContext executeFetchRequest:request error:nil];
+
+    for (User *user in array) {
+        //将数据从上下文种移除
+        [_moContext deleteObject:user];
+    }
+
+    //执行save操作 真正对数据库中的数据做删除
+    BOOL delete = [_moContext save:nil];
+
+    if (delete) {
+        NSLog(@&amp;quot;删除成功&amp;quot;);
+    }
+    else
+    {
+        NSLog(@&amp;quot;删除失败&amp;quot;);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;6.异步查询&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-(void)asyncQueryData
+{
+    //创建一个上下文 该上下文的执行操作在私有队列中
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+
+    context.persistentStoreCoordinator = store;
+
+
+
+    [context performBlock:^{
+        [self queryData];
+    }];
+    NSLog(@&amp;quot;heiheihei&amp;quot;);
+
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      Core Data是iOS5之后才出现的一个框架，它提供了对象-关系映射(ORM)的功能，即能够将OC对象转化成数据，保存在SQLite数据库文件中，也能够将保存在数据库中的数据还原成OC对象
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CocoaPods依赖管理工具的使用</title>
+    <link href="http://yoursite.com/2014/12/23/CocoaPods/"/>
+    <id>http://yoursite.com/2014/12/23/CocoaPods/</id>
+    <published>2014-12-22T16:00:00.000Z</published>
+    <updated>2016-04-13T02:35:39.000Z</updated>
+    
+    <content type="html">&lt;p&gt;一.CocoaPods用途&lt;br&gt;　　开发 iOS 项目不可避免地要使用第三方开源库，CocoaPods 的出现使得我们可以节省设置和更新第三方开源库的时间。在使用 CocoaPods 之后，只需要将用到的第三方开源库放到一个名为 Podfile 的文件中，然后执行pod install。 CocoaPods 就会自动将这些第三方开源库的源码下载下来，并且为我的工程设置好相应的系统依赖和编译参数。&lt;/p&gt;
+&lt;p&gt;二.CocoaPods下载&lt;/p&gt;
+&lt;p&gt;1.如下命令升级 gem:&lt;br&gt; &lt;code&gt;gem update&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;2、安装CocoaPods&lt;br&gt;　　我们要访问cocoapods.org，该网站可能被我们大天朝墙了，这样下载安装可能会是龟速，幸好我们可以用淘宝的Ruby镜像来访问该网站，方法如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1、gem sources --remove https://rubygems.org/
+2、gem sources -a http://ruby.taobao.org/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安装Cocoapods，在终端输入命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$sudo gem install cocoapods
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;三.CocoaPods使用&lt;/p&gt;
+&lt;p&gt;1.使用search命令搜索类库名：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pod search AFNetworking
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2.需要在工程中创建一个Podfile文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd /Users/shiyunlei/Desktop/CocoapodsSample(进入工程目录，cd后面的是工程的路径) 
+
+touch Podfile（创建Podfile文件）  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;3.然后使用vim编辑Podfile文件，使用命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vim Podfile 
+i
+pod ‘AFNetworking‘, ‘~&amp;gt; 2.3.1‘
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在编辑完成后按“&lt;code&gt;esc&lt;/code&gt;”，&lt;br&gt;再按“&lt;code&gt;:&lt;/code&gt;”,&lt;br&gt;这个时候输入&lt;code&gt;wq&lt;/code&gt;,点击回车，保存并退出。&lt;/p&gt;
+&lt;p&gt;4.最后下载指定的第三方库&lt;br&gt;    &lt;code&gt;pod install&lt;/code&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      开发 iOS 项目不可避免地要使用第三方开源库，CocoaPods 的出现使得我们可以节省设置和更新第三方开源库的时间。在使用 CocoaPods 之后，只需要将用到的第三方开源库放到一个名为 Podfile 的文件中，然后执行pod install。 CocoaPods 就会自动将这些第三方开源库的源码下载下来，并且为我的工程设置好相应的系统依赖和编译参数。
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="CocoaPods" scheme="http://yoursite.com/tags/CocoaPods/"/>
+    
+  </entry>
+  
+</feed>
