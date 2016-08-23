@@ -87,7 +87,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/08/01/postName/" data-id="cis6g4zrk000y164i6w42seze" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/08/01/postName/" data-id="cis6xrfyg000gea4i1h5wmqzm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -132,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/08/01/hello-world/" data-id="cis6g4zrg000v164inlo0gdr2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/08/01/hello-world/" data-id="cis6xrfye000fea4icgzmfq9y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -176,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/30/2016-03-30ABNewPersonViewController/" data-id="cis6g4zr8000m164ilxi5o3qm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/30/2016-03-30ABNewPersonViewController/" data-id="cis6xrfyc000eea4ikysxqp4z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ABNewPersonViewController/">ABNewPersonViewController</a></li></ul>
@@ -335,7 +335,7 @@ for ( int i = 1 ; i &lt;= count ; ++i )
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/05/2016-01-05-Masonry介绍与使用实践/" data-id="cis6g4zre000s164i8igvqgu6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/05/2016-01-05-Masonry介绍与使用实践/" data-id="cis6xrfyb000dea4iph7if3l8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Masonry/">Masonry</a></li></ul>
@@ -491,7 +491,7 @@ for ( int i = 1 ; i &lt;= count ; ++i )
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/04/2016-01-04-给你的iOS应用更换主题/" data-id="cis6g4zr4000i164izzvwfpuu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/04/2016-01-04-给你的iOS应用更换主题/" data-id="cis6xrfy9000cea4i20m1ys2r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/主题/">主题</a></li></ul>
@@ -561,81 +561,10 @@ for ( int i = 1 ; i &lt;= count ; ++i )
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/25/2014-12-25-ImageView-size/" data-id="cis6g4zpd0002164iyhnozq4s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/25/2014-12-25-ImageView-size/" data-id="cis6xrfxt0004ea4i7aydf0xt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI控件/">UI控件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2015-12-23-AudioToolbox.framework" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/12/23/2015-12-23-AudioToolbox.framework/" class="article-date">
-  <time datetime="2015-12-22T16:00:00.000Z" itemprop="datePublished">2015-12-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/23/2015-12-23-AudioToolbox.framework/">媒体播放之—— 音效播放</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>　　AudioToolbox.framework是一套基于C语言的框架，使用它来播放音效本质是将短音频注册到系统的声音服务。System Sound Service是一种简单的底层音乐播放服务，但是它本身也存在着一些限制：</p>
-<p>1.音频播放时间不能超过30s。</p>
-<p>2.数据必须是PCM或者IMA4格式。</p>
-<p>3.音频文件必须打包成.caf .aif .wav 中的一种</p>
-<p>4.加入#import <avfoundation avfoundation.h=""></avfoundation></p>
-<ul>
-<li><p><a href="http://7xpvy0.com1.z0.glb.clouddn.com/msgcome%E5%88%B7%E6%96%B0%E9%9F%B3%E6%95%88.wav" target="_blank" rel="external">声音文件</a></p>
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-
-    //获取文件路径
-    NSString *path = [[NSBundle mainBundle] pathForResource:@&quot;msgcome&quot; ofType:@&quot;wav&quot;];
-
-    NSURL *url = [NSURL fileURLWithPath:path];
-
-    SystemSoundID soundId;
-
-    //将url路径中的内容绑定到soundId上  __bridge作用：c与OC的转换
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)(url), &amp;soundId);
-
-    //根据id 播放声音
-    AudioServicesPlaySystemSound(soundId);
-
-    //播放声音并且震动
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-}
-</code></pre></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/2015-12-23-AudioToolbox.framework/" data-id="cis6g4zpf0003164izazk91p9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/媒体播放/">媒体播放</a></li></ul>
 
     </footer>
   </div>
@@ -873,10 +802,81 @@ for ( int i = 1 ; i &lt;= count ; ++i )
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/2015-12-23-媒体播放之—— AVPlaye和AVAudioPlayer/" data-id="cis6g4zpj0005164ixksw0ckd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/2015-12-23-媒体播放之—— AVPlaye和AVAudioPlayer/" data-id="cis6xrfy5000aea4in1gxmfsl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/主题/">主题</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-12-23-AudioToolbox.framework" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/23/2015-12-23-AudioToolbox.framework/" class="article-date">
+  <time datetime="2015-12-22T16:00:00.000Z" itemprop="datePublished">2015-12-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/23/2015-12-23-AudioToolbox.framework/">媒体播放之—— 音效播放</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　AudioToolbox.framework是一套基于C语言的框架，使用它来播放音效本质是将短音频注册到系统的声音服务。System Sound Service是一种简单的底层音乐播放服务，但是它本身也存在着一些限制：</p>
+<p>1.音频播放时间不能超过30s。</p>
+<p>2.数据必须是PCM或者IMA4格式。</p>
+<p>3.音频文件必须打包成.caf .aif .wav 中的一种</p>
+<p>4.加入#import <avfoundation avfoundation.h=""></avfoundation></p>
+<ul>
+<li><p><a href="http://7xpvy0.com1.z0.glb.clouddn.com/msgcome%E5%88%B7%E6%96%B0%E9%9F%B3%E6%95%88.wav" target="_blank" rel="external">声音文件</a></p>
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    //获取文件路径
+    NSString *path = [[NSBundle mainBundle] pathForResource:@&quot;msgcome&quot; ofType:@&quot;wav&quot;];
+
+    NSURL *url = [NSURL fileURLWithPath:path];
+
+    SystemSoundID soundId;
+
+    //将url路径中的内容绑定到soundId上  __bridge作用：c与OC的转换
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)(url), &amp;soundId);
+
+    //根据id 播放声音
+    AudioServicesPlaySystemSound(soundId);
+
+    //播放声音并且震动
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
+</code></pre></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/23/2015-12-23-AudioToolbox.framework/" data-id="cis6xrfy00008ea4irujfdgym" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/媒体播放/">媒体播放</a></li></ul>
 
     </footer>
   </div>
@@ -973,7 +973,7 @@ _moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/2015-12-23-MPMoviePlayer2/" data-id="cis6g4zpi0004164ifh01zh5n" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/2015-12-23-MPMoviePlayer2/" data-id="cis6xrfy40009ea4ivqnhktw8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/媒体播放/">媒体播放</a></li></ul>
@@ -1193,7 +1193,7 @@ _moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/22/2015-12-22-UIPickerView制作地区选择器/" data-id="cis6g4zrn000z164isuwffn2g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/22/2015-12-22-UIPickerView制作地区选择器/" data-id="cis6xrfxz0007ea4izcq9cg7o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIPickerView/">UIPickerView</a></li></ul>
